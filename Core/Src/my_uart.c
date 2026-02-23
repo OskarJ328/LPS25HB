@@ -25,38 +25,6 @@ int __io_putchar(int ch){
     return 1;
 }
 
-/*
-gromadzimy znaki w buforze, a po pojawieniu sie znaku konca linii przekazujemy zawartosc bufora.
-Dobra jesli literki są wysyłane w krótkich odstępach czasu, w innym przypadku dojdzie do gubienia literek
-Lepszą alternatywą jest zastosowanie przerwań
-*/
-/*
-bool my_uart_receive_message(char* message){
-    uint8_t ch;
-    if(HAL_UART_Receive(&huart2, &ch, 1, 0) == HAL_OK){
-        if(ch == '\n' || ch == '\r'){
-            if(message_length > 0){
-                message_buffer[message_length] = '\0';
-                for (uint8_t pos = 0; pos <= message_length; pos++){
-                    message[pos] = message_buffer[pos];
-                    message_buffer[pos] = 0; 
-                }
-                message_length = 0;
-                return true;
-            }
-        }
-        else{
-            if(message_length >= MAX_MESSAGE_LENGTH - 1) {
-                message_length = 0;
-            }
-        message_buffer[message_length] = ch;
-        message_length++;
-        }
-    }
-    return false;
-}
-*/
-
 // rozpoczecie odbioru danych
 void my_uart_start_receiving(void){
     HAL_UART_Receive_IT(&huart2, &rx_byte, 1);
