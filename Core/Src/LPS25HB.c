@@ -34,3 +34,13 @@ bool lps_check_connection(void){
 void lps_init(void){
     lps_write_reg(LPS25HB_CTRL_REG1, CTRL_REG_ODR2 | CTRL_REG_PD);
 }
+
+float lps_read_temp(void){ 
+    uint8_t raw_temp_buffer[2];
+    HAL_I2C_Mem_Read(&hi2c1, LPS25HB_ADDR, TEMP_OUT, 1, raw_temp_buffer, sizeof(raw_temp_buffer), HAL_MAX_DELAY);
+    
+    int16_t raw_temp = (int16_t)((raw_temp_buffer[1] << 8) | raw_temp_buffer[0]); 
+
+    float temp = 42.5f + (raw_temp / 480.0f);
+    return temp;
+}
