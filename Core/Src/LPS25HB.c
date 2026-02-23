@@ -44,3 +44,13 @@ float lps_read_temp(void){
     float temp = 42.5f + (raw_temp / 480.0f);
     return temp;
 }
+
+float lps_read_pressure(void){
+    uint8_t raw_pressure_buffer[3];
+    HAL_I2C_Mem_Read(&hi2c1, LPS25HB_ADDR, PRESSURE_OUT, 1, raw_pressure_buffer, sizeof(raw_pressure_buffer), HAL_MAX_DELAY);
+
+    int32_t raw_pressure = (int32_t)((raw_pressure_buffer[2] << 16) | (raw_pressure_buffer[1] << 8) | raw_pressure_buffer[0]);
+    
+    float pressure = raw_pressure / 4096.0;
+    return pressure;
+}

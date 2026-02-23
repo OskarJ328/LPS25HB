@@ -13,5 +13,5 @@
 bool lps_check_connection(void);
 void lps_init(void);
 float lps_read_temp(void);
-
+float lps_read_pressure(void);
 #endif /* INC_LPS25HB_H_ */
