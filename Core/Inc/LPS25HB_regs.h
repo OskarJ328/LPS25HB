@@ -28,6 +28,6 @@
 #define CTRL_REG_ODR2 0x40
 // ponizszy define wynika z tego ze jesli chcemy od razu odczytac dwa rejestry na raz
 //nalezy zmienic najstarszy bit adresu na 1.
-#define TEMP_OUT LPS25HB_PRESS_OUT_L | 0x80 
+#define TEMP_OUT LPS25HB_TEMP_OUT_L | 0x80
 
 #endif /* INC_LPS25HB_REGS_H_ */
