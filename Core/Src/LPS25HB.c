@@ -9,7 +9,6 @@
 #include "LPS25HB_regs.h"
 #include "i2c.h"
 
-#define WHO_AM_I_VAL 0xBD
 
 static uint8_t lps_read_reg(uint8_t reg_addr){
     uint8_t reg_value = 0;
@@ -30,4 +29,8 @@ bool lps_check_connection(void){
     else{
         return false;
     }
+}
+
+void lps_init(void){
+    lps_write_reg(LPS25HB_CTRL_REG1, CTRL_REG_ODR2 | CTRL_REG_PD);
 }

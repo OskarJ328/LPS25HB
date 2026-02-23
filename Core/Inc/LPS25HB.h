@@ -11,5 +11,5 @@
 #include "stdbool.h"
 
 bool lps_check_connection(void);
-
+void lps_init(void);
 #endif /* INC_LPS25HB_H_ */
