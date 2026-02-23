@@ -24,7 +24,10 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "stdio.h"
 
+#include "my_uart.h"
+#include "LPS25HB.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -91,13 +94,21 @@ int main(void)
   MX_I2C1_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
-
   /* USER CODE END 2 */
-
+  lps_init();
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    if(lps_check_connection()){
+      printf("Success: lps found\n");
+      printf("Temperature: %.1f\n", lps_read_temp());
+      printf("Pressure: %.1f\n", lps_read_pressure());
+    }
+    else{
+      printf("Error: lps not found\n");
+    }
+    HAL_Delay(1000);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
