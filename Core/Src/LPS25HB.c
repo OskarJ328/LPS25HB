@@ -17,6 +17,10 @@ static uint8_t lps_read_reg(uint8_t reg_addr){
     return reg_value;
 }
 
+static void lps_write_reg(uint8_t reg_addr, uint8_t value){
+    HAL_I2C_Mem_Write(&hi2c1, LPS25HB_ADDR, reg_addr, 1, &value, sizeof(value), HAL_MAX_DELAY);
+}
+
 bool lps_check_connection(void){
     uint8_t who_am_i = lps_read_reg(LPS25HB_WHO_AM_I);
 
