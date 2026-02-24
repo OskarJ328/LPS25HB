@@ -9,15 +9,17 @@
 #include "LPS25HB_regs.h"
 #include "i2c.h"
 
+#define TIMEOUT 100
+
 
 static uint8_t lps_read_reg(uint8_t reg_addr){
     uint8_t reg_value = 0;
-    HAL_I2C_Mem_Read(&hi2c1, LPS25HB_ADDR, reg_addr, 1, &reg_value, 1, HAL_MAX_DELAY);
+    HAL_I2C_Mem_Read(&hi2c1, LPS25HB_ADDR, reg_addr, 1, &reg_value, 1, TIMEOUT);
     return reg_value;
 }
 
 static void lps_write_reg(uint8_t reg_addr, uint8_t value){
-    HAL_I2C_Mem_Write(&hi2c1, LPS25HB_ADDR, reg_addr, 1, &value, sizeof(value), HAL_MAX_DELAY);
+    HAL_I2C_Mem_Write(&hi2c1, LPS25HB_ADDR, reg_addr, 1, &value, sizeof(value), TIMEOUT);
 }
 
 static bool lps_check_connection(void){
@@ -44,7 +46,10 @@ bool lps_init(void){
 
 float lps_read_temp(void){ 
     uint8_t raw_temp_buffer[2];
-    HAL_I2C_Mem_Read(&hi2c1, LPS25HB_ADDR, TEMP_OUT, 1, raw_temp_buffer, sizeof(raw_temp_buffer), HAL_MAX_DELAY);
+
+    if(HAL_I2C_Mem_Read(&hi2c1, LPS25HB_ADDR, TEMP_OUT, 1, raw_temp_buffer, sizeof(raw_temp_buffer), TIMEOUT) != HAL_OK){
+        Error_Handler();
+    }
     
     int16_t raw_temp = (int16_t)((raw_temp_buffer[1] << 8) | raw_temp_buffer[0]); 
 
@@ -54,7 +59,9 @@ float lps_read_temp(void){
 
 float lps_read_pressure(void){
     uint8_t raw_pressure_buffer[3];
-    HAL_I2C_Mem_Read(&hi2c1, LPS25HB_ADDR, PRESSURE_OUT, 1, raw_pressure_buffer, sizeof(raw_pressure_buffer), HAL_MAX_DELAY);
+    if(HAL_I2C_Mem_Read(&hi2c1, LPS25HB_ADDR, PRESSURE_OUT, 1, raw_pressure_buffer, sizeof(raw_pressure_buffer), TIMEOUT) != HAL_OK){
+        Error_Handler();
+    }
 
     int32_t raw_pressure = (int32_t)((raw_pressure_buffer[2] << 16) | (raw_pressure_buffer[1] << 8) | raw_pressure_buffer[0]);
     

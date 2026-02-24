@@ -95,19 +95,17 @@ int main(void)
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
   /* USER CODE END 2 */
-  lps_init();
+  if(lps_init()){
+    printf("Success: LPS25HB was found\n");
+  }else{
+    printf("Error: LPS25HB was not found\n");
+  }
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    if(lps_check_connection()){
-      printf("Success: lps found\n");
-      printf("Temperature: %.1f\n", lps_read_temp());
-      printf("Pressure: %.1f\n", lps_read_pressure());
-    }
-    else{
-      printf("Error: lps not found\n");
-    }
+    printf("Temperature: %.1f\n", lps_read_temp());
+    printf("Pressure: %.1f\n", lps_read_pressure());
     HAL_Delay(1000);
     /* USER CODE END WHILE */
 
