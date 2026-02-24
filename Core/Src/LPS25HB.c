@@ -20,7 +20,7 @@ static void lps_write_reg(uint8_t reg_addr, uint8_t value){
     HAL_I2C_Mem_Write(&hi2c1, LPS25HB_ADDR, reg_addr, 1, &value, sizeof(value), HAL_MAX_DELAY);
 }
 
-bool lps_check_connection(void){
+static bool lps_check_connection(void){
     uint8_t who_am_i = lps_read_reg(LPS25HB_WHO_AM_I);
 
     if (who_am_i == WHO_AM_I_VAL){
@@ -31,8 +31,15 @@ bool lps_check_connection(void){
     }
 }
 
-void lps_init(void){
-    lps_write_reg(LPS25HB_CTRL_REG1, CTRL_REG_ODR2 | CTRL_REG_PD);
+bool lps_init(void){
+    if(lps_check_connection()){
+        lps_write_reg(LPS25HB_CTRL_REG1, CTRL_REG_ODR2 | CTRL_REG_PD);
+        return true;
+    }
+    else{
+        return false;
+    }
+    
 }
 
 float lps_read_temp(void){ 
