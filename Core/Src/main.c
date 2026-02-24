@@ -37,7 +37,8 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
+#define LODZ_HEIGHT 200.0
+#define PRESSURE_OFFSET 1028 - 1021
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -100,12 +101,15 @@ int main(void)
   }else{
     printf("Error: LPS25HB was not found\n");
   }
+  lps_set_pressure_offset(PRESSURE_OFFSET);
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    printf("Temperature: %.1f\n", lps_read_temp());
-    printf("Pressure: %.1f\n", lps_read_pressure());
+    float abs_pressure_hPa = lps_read_absolute_pressure();
+    printf("Temperature: %.1f*C\n", lps_read_temp());
+    printf("Absolute Pressure: %.1fhPa\n", abs_pressure_hPa);
+    printf("Relative Pressure: %.1fhPa\n", lps_count_relative_pressure(abs_pressure_hPa, LODZ_HEIGHT));
     HAL_Delay(1000);
     /* USER CODE END WHILE */
 

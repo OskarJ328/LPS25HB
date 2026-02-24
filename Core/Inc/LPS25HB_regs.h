@@ -20,7 +20,8 @@
 #define LPS25HB_PRESS_OUT_H 0x2A
 #define LPS25HB_TEMP_OUT_L 0x2B
 #define LPS25HB_TEMP_OUT_H 0x2C
-
+#define LPS25HB_RPDS_L 0x39
+#define LPS25HB_RPDS_H 0x3A
 
 //register values
 #define WHO_AM_I_VAL 0xBD
